@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate Guide to Elevators: A Comprehensive Interactive Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral & Slate Blue -->
+    <!-- Application Structure Plan: The SPA is designed with a thematic, non-linear structure to enhance user exploration and cover all book content. It begins with a hero section, followed by a tab-based navigation to five key modules: "The Basics" (covering introduction, core components, physics), "Elevator Types" (detailing various types and their applications), "Safety & Regulations" (exploring safety systems, emergency procedures, and standards), "Project Lifecycle" (focusing on design, installation, maintenance, and repairs), and "Future & Beyond" (discussing innovations, sustainability, accessibility, and career paths). This structure was chosen to transform the dense book content into a task-oriented and engaging experience, allowing users to dive into topics of interest rather than reading linearly, thus improving comprehension and usability by grouping related concepts. -->
+    <!-- Visualization & Content Choices: The application uses various interactive methods and expanded textual content to present information. For "The Basics," an HTML/CSS diagram with JS click-to-reveal text explains components. For "Elevator Types," a dynamic Chart.js radar chart compares key metrics (Speed, Cost, Rise) when a user selects an elevator type, providing a clear visual comparison. The "Choosing an Elevator" (now part of Project Lifecycle) section uses a JS-powered interactive form (dropdowns) to provide tailored recommendations based on user input (building type/height), making the guide practical. "Safety Systems" uses another click-to-reveal diagram. All sections are heavily populated with descriptive text drawn from the book's chapter summaries and index entries, ensuring comprehensive coverage. This approach avoids static text walls and engages the user directly, fulfilling the goals of comparison, information delivery, and organization without using disallowed SVG/Mermaid libraries. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfcf9; /* A warm off-white */
+            color: #334155; /* Slate 700 */
+        }
+        .active-tab {
+            border-bottom-color: #3b82f6; /* Blue 500 */
+            color: #1e3a8a; /* Blue 800 */
+            font-weight: 600;
+        }
+        .tab {
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .interactive-component {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .interactive-component.selected {
+            background-color: #bfdbfe; /* Blue 200 */
+            border-color: #3b82f6; /* Blue 500 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-12">
+            <p class="text-2xl md:text-3xl font-bold text-slate-800 mx-auto mb-4">EASA Elevators: Knowledge Academy</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-2">The Vertical Journey</h1>
+            <p class="text-lg text-slate-600">A Comprehensive Interactive Guide to Elevators & Escalators</p>
+        </header>
+
+        <nav class="mb-8 border-b border-slate-200">
+            <ul class="flex flex-wrap justify-center -mb-px">
+                <li class="mr-2"><a href="#" class="tab active-tab inline-block p-4" data-tab="basics">The Basics</a></li>
+                <li class="mr-2"><a href="#" class="tab inline-block p-4" data-tab="types">Elevator Types</a></li>
+                <li class="mr-2"><a href="#" class="tab inline-block p-4" data-tab="safety">Safety & Regulations</a></li>
+                <li class="mr-2"><a href="#" class="tab inline-block p-4" data-tab="lifecycle">Project Lifecycle</a></li>
+                <li class="mr-2"><a href="#" class="tab inline-block p-4" data-tab="future">Future & Beyond</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="basics" class="content-section active">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-700">Fundamentals of Vertical Transportation</h2>
+                    <p class="mt-2 text-slate-500 max-w-2xl mx-auto">This section introduces the essential concepts of elevators, from their historical significance to the core components that make them work, and the underlying physics.</p>
+                </div>
+
+                <div class="mb-8 p-6 bg-white rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-slate-800 mb-4">A World on the Rise: Why We Need Elevators</h3>
+                    <p class="text-slate-600 mb-4">Elevators are no longer a luxury but a necessity in modern society, fundamentally reshaping urban landscapes and enabling the construction of towering skyscrapers. From their early historical context, vertical transportation has evolved to become an indispensable part of residential buildings, bustling commercial offices, critical hospital facilities, vibrant retail spaces, complex transportation hubs, and demanding industrial environments. They are key enablers of density and accessibility in our increasingly vertical world.</p>
+                    <h4 class="font-semibold text-lg text-slate-700 mb-2">The Physics of Lift: How Elevators Defy Gravity</h4>
+                    <p class="text-slate-600">At their core, elevators operate on fundamental principles of physics. Understanding concepts like pulleys, counterbalancing, force, weight, and motion is crucial to grasping how these heavy machines effortlessly transport people and goods. The ingenious application of mechanical advantage allows a relatively small motor to lift immense loads efficiently.</p>
+                </div>
+
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-700">The Core Components: What Makes an Elevator Go?</h2>
+                    <p class="mt-2 text-slate-500 max-w-2xl mx-auto">Click on each component in the diagram below to learn more about its function and importance within a standard traction elevator system.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                    <div id="component-info" class="md:col-span-1 p-6 bg-white rounded-xl shadow-md min-h-[300px]">
+                        <h3 id="info-title" class="font-bold text-xl text-blue-700 mb-2">Select a Component</h3>
+                        <p id="info-text" class="text-slate-600">Click on a part of the diagram to see its description here.</p>
+                    </div>
+                    <div class="md:col-span-2 relative p-4 bg-slate-100 rounded-lg">
+                        <div class="relative w-full max-w-md mx-auto aspect-[3/4]">
+                            <!-- Hoistway -->
+                            <div class="absolute inset-0 border-2 border-slate-300 rounded-lg flex justify-center">
+                                <span class="absolute -top-6 text-sm text-slate-500 font-semibold">Hoistway (Shaft)</span>
+                            </div>
+                            <!-- Motor -->
+                            <div id="comp-motor" class="interactive-component absolute top-2 left-1/2 -translate-x-1/2 w-24 h-12 bg-slate-600 rounded-md flex items-center justify-center text-white text-xs font-bold border-2 border-transparent">Motor</div>
+                            <!-- Ropes -->
+                             <div id="comp-ropes" class="absolute top-14 left-[48%] w-1 bg-slate-400 h-[calc(100%-7rem)] interactive-component"></div>
+                             <div class="absolute top-14 left-[52%] w-1 bg-slate-400 h-[calc(100%-7rem)]"></div>
+                            <!-- Car -->
+                            <div id="comp-car" class="interactive-component absolute top-1/2 -translate-y-1/2 left-8 w-40 h-56 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold border-2 border-transparent">
+                                Car (Cab)
+                            </div>
+                            <!-- Counterweight -->
+                            <div id="comp-counterweight" class="interactive-component absolute top-1/2 -translate-y-1/2 right-8 w-16 h-48 bg-slate-500 rounded-lg flex items-center justify-center text-white font-bold text-sm text-center border-2 border-transparent">
+                                Counter-weight
+                            </div>
+                            <!-- Guide Rails (simplified visual) -->
+                            <div id="comp-guide-rails" class="absolute left-6 top-8 w-2 h-[calc(100%-4rem)] bg-slate-400 rounded-sm interactive-component"></div>
+                            <div class="absolute right-6 top-8 w-2 h-[calc(100%-4rem)] bg-slate-400 rounded-sm"></div>
+                            <!-- Buffers -->
+                            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-12">
+                                <div id="comp-buffers" class="interactive-component w-10 h-6 bg-yellow-500 rounded-sm border-2 border-transparent"></div>
+                                <div class="w-10 h-6 bg-yellow-500 rounded-sm"></div>
+                            </div>
+                            <span class="absolute -bottom-6 text-sm text-slate-500 font-semibold left-1/2 -translate-x-1/2">Pit & Buffers</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="types" class="content-section">
+                 <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-700">Types of Elevators and Their Mechanisms</h2>
+                    <p class="mt-2 text-slate-500 max-w-2xl mx-auto">Explore the diverse world of vertical transportation, from common passenger lifts to specialized systems. Select an elevator type to see its characteristics and a comparison chart.</p>
+                </div>
+                
+                <div class="mb-8 p-6 bg-white rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-slate-800 mb-4">Overview of Elevator Types</h3>
+                    <p class="text-slate-600 mb-4">The choice of elevator type is crucial for a building's functionality and efficiency. Each mechanism offers distinct advantages in terms of speed, capacity, energy consumption, and space requirements. Understanding these differences is key to optimal building design.</p>
+                    <h4 class="font-semibold text-lg text-slate-700 mb-2">Specialty Lifts: Beyond the Everyday Elevator</h4>
+                    <p class="text-slate-600 mb-4">Beyond the common passenger and goods lifts, there's a range of specialized vertical transportation solutions. This includes robust freight elevators designed for heavy loads, compact dumbwaiters for moving small items, versatile material lifts, and custom-designed home elevators. Accessibility lifts also play a vital role in ensuring mobility for all.</p>
+                    <h4 class="font-semibold text-lg text-slate-700 mb-2">Escalators and Moving Walkways: Horizontal and Inclined Movement</h4>
+                    <p class="text-slate-600">While not strictly "elevators," escalators and moving walkways are integral to high-traffic environments like airports and shopping malls, providing continuous, high-capacity movement. They offer a different approach to vertical and inclined transportation, complementing elevator systems.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                     <div id="type-traction" class="p-6 bg-white rounded-xl shadow-md interactive-component border-2 border-transparent">
+                        <h3 class="font-bold text-lg text-slate-800">Traction Elevator</h3>
+                        <p class="text-sm text-slate-500 mt-1">Uses ropes and counterweights. Ideal for mid to high-rise buildings due to its speed and efficiency.</p>
+                        <p class="text-xs text-slate-400 mt-2">Details: Geared and Gearless systems, Machine Room vs. MRL designs.</p>
+                    </div>
+                    <div id="type-hydraulic" class="p-6 bg-white rounded-xl shadow-md interactive-component border-2 border-transparent">
+                        <h3 class="font-bold text-lg text-slate-800">Hydraulic Elevator</h3>
+                        <p class="text-sm text-slate-500 mt-1">Uses a piston to push the car up. Best for low-rise buildings (2-7 stories) and heavy loads.</p>
+                        <p class="text-xs text-slate-400 mt-2">Details: Direct-acting vs. roped hydraulic systems, typical applications.</p>
+                    </div>
+                    <div id="type-mrl" class="p-6 bg-white rounded-xl shadow-md interactive-component border-2 border-transparent">
+                        <h3 class="font-bold text-lg text-slate-800">MRL Elevator</h3>
+                        <p class="text-sm text-slate-500 mt-1">Machine Room-Less design saves space. A popular, energy-efficient choice for low to mid-rise buildings.</p>
+                        <p class="text-xs text-slate-400 mt-2">Details: Integration of machinery within hoistway, growing popularity.</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="type-comparison-chart"></canvas>
+                </div>
+            </section>
+
+            <section id="safety" class="content-section">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-700">Safety First: Regulations and Systems</h2>
+                    <p class="mt-2 text-slate-500 max-w-2xl mx-auto">Elevator safety is paramount, governed by strict regulations and implemented through multiple redundant systems. Understand the layers of protection and emergency protocols.</p>
+                </div>
+
+                <div class="mb-8 p-6 bg-white rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-slate-800 mb-4">Understanding Elevator Regulations and Standards</h3>
+                    <p class="text-slate-600 mb-4">Elevator safety is not accidental; it's the result of rigorous design, manufacturing, installation, and maintenance, all governed by comprehensive safety codes. Key international standards like ASME A17.1/CSA B44 (North America) and EN 81 (Europe) set the benchmarks for safety. In India, standards like IS 14665, IS 17900, and IS 15259 (for home lifts) are crucial, along with the National Building Code (NBC). Compliance with these regulations is non-negotiable for ensuring public safety and operational reliability.</p>
+                    <h4 class="font-semibold text-lg text-slate-700 mb-2">Emergency Procedures: Prepared for the Unexpected</h4>
+                    <p class="text-slate-600">Elevator systems incorporate robust emergency protocols. This includes features for fire service operation, ensuring elevators can be used by firefighters. Automatic Rescue Devices (ARD) provide backup power to safely lower the car during power outages. Clear entrapment protocols and two-way communication systems (intercoms) ensure that passengers can call for help and be rescued efficiently. Emergency stop buttons and overload indicators are also standard safety features.</p>
+                </div>
+
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-700">Layers of Safety: Interactive Overview</h2>
+                    <p class="mt-2 text-slate-500 max-w-2xl mx-auto">Click a layer to understand how it protects passengers in various scenarios.</p>
+                </div>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="w-full md:w-1/3 flex flex-col gap-4">
+                        <div id="safety-interlocks" class="interactive-component p-4 bg-white rounded-lg shadow-sm border-2 border-transparent">
+                            <h4 class="font-semibold text-blue-800">Door Interlocks</h4>
+                            <p class="text-xs text-slate-600">Prevents the car from moving if any door is open, and prevents doors from opening between floors.</p>
+                        </div>
+                        <div id="safety-governor" class="interactive-component p-4 bg-white rounded-lg shadow-sm border-2 border-transparent">
+                            <h4 class="font-semibold text-blue-800">Overspeed Governor & Safety Gear</h4>
+                             <p class="text-xs text-slate-600">The ultimate mechanical brake. Detects excessive speed and clamps the car to the guide rails.</p>
+                        </div>
+                        <div id="safety-ard" class="interactive-component p-4 bg-white rounded-lg shadow-sm border-2 border-transparent">
+                            <h4 class="font-semibold text-blue-800">Emergency Systems (ARD & Comms)</h4>
+                             <p class="text-xs text-slate-600">Includes backup power to safely lower the car and two-way communication for trapped passengers.</p>
+                        </div>
+                         <div id="safety-buffers" class="interactive-component p-4 bg-white rounded-lg shadow-sm border-2 border-transparent">
+                            <h4 class="font-semibold text-blue-800">Buffers</h4>
+                             <p class="text-xs text-slate-600">Energy-absorbing devices at the bottom of the pit that cushion the car in an over-travel event.</p>
+                        </div>
+                    </div>
+                    <div id="safety-info" class="w-full md:w-2/3 p-6 bg-blue-50 rounded-xl">
+                        <h3 id="safety-info-title" class="font-bold text-xl text-blue-900 mb-2">Select a Safety System</h3>
+                        <p id="safety-info-text" class="text-slate-700">Click on a safety layer to the left to learn more about its critical role.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="lifecycle" class="content-section">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-700">Project Lifecycle: From Design to Operation</h2>
+                    <p class="mt-2 text-slate-500 max-w-2xl mx-auto">The journey of an elevator from concept to daily operation involves meticulous planning, precise installation, and diligent ongoing care. This section explores each phase.</p>
+                </div>
+
+                <div class="mb-8 p-6 bg-white rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-slate-800 mb-4">Design and Planning: The Blueprint for Mobility</h3>
+                    <p class="text-slate-600 mb-4">Effective elevator design begins with a thorough understanding of a building's specific needs. This involves detailed traffic analysis, considering factors like expected interval, handling capacity, waiting time, and travel time during peak periods. Architects and engineers must ensure seamless building integration, designing the elevator core and lobby to optimize flow. Concepts like zoning (grouping floors for different elevator banks) and express elevators are crucial for efficiency in larger buildings.</p>
+                    <h4 class="font-semibold text-lg text-slate-700 mb-2">Installation and Commissioning: Bringing the System to Life</h4>
+                    <p class="text-slate-600 mb-4">The installation process is a complex undertaking, requiring adherence to precise technical drawings and civil data sheets. Understanding hoistway plan and sectional views, electrical schematics, and key dimensions (Clear Hoistway Width/Depth, Pit, Overhead) is paramount. Strict attention to clearances and construction tolerances ensures safe and compliant operation. After physical installation, rigorous testing procedures are conducted, followed by final commissioning to ensure the elevator meets all performance and safety standards.</p>
+                    <h4 class="font-semibold text-lg text-slate-700 mb-2">Maintenance, Inspection, and Repairs: Ensuring Longevity and Safety</h4>
+                    <p class="text-slate-600">Regular maintenance is vital for an elevator's longevity, reliability, and safety. This includes routine inspections, preventative maintenance schedules, and prompt troubleshooting of common issues. Skilled elevator technicians play a critical role in this phase. Modern approaches include predictive maintenance, leveraging data to anticipate and address potential problems before they lead to breakdowns. When repairs are needed, prompt and expert intervention is essential to minimize downtime and restore safe operation.</p>
+                </div>
+
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-700">Choosing the Right Elevator: Interactive Guide</h2>
+                    <p class="mt-2 text-slate-500 max-w-2xl mx-auto">Selecting an elevator depends on many factors. Use this simple guide to see recommendations based on building type and height, with a focus on the Indian context.</p>
+                </div>
+                <div class="max-w-3xl mx-auto p-8 bg-white rounded-xl shadow-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="building-type" class="block text-sm font-medium text-slate-700 mb-1">Building Type</label>
+                            <select id="building-type" class="w-full p-2 border border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <option value="residential">Residential</option>
+                                <option value="commercial">Commercial/Office</option>
+                                <option value="hospital">Hospital</option>
+                                <option value="industrial">Industrial/Freight</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="building-height" class="block text-sm font-medium text-slate-700 mb-1">Building Height</label>
+                            <select id="building-height" class="w-full p-2 border border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <option value="low">Low-Rise (2-5 Floors)</option>
+                                <option value="mid">Mid-Rise (6-15 Floors)</option>
+                                <option value="high">High-Rise (16+ Floors)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="recommendation-output" class="p-6 bg-slate-50 rounded-lg border border-slate-200">
+                        <h3 class="font-bold text-lg text-slate-800 mb-2">Recommendation:</h3>
+                        <div id="recommendation-content">
+                            <p class="text-slate-600">Make your selections above to see a tailored recommendation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="future" class="content-section">
+                 <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-700">The Future & Beyond: Innovations and Industry</h2>
+                    <p class="mt-2 text-slate-500 max-w-2xl mx-auto">This section explores the cutting edge of elevator technology, focusing on sustainability, accessibility, and emerging trends, along with career opportunities.</p>
+                </div>
+
+                <div class="mb-8 p-6 bg-white rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-slate-800 mb-4">Energy Efficiency and Sustainability: Green Elevators</h3>
+                    <p class="text-slate-600 mb-4">The elevator industry is increasingly focused on environmental responsibility. The concept of "Green Elevators" encompasses technologies like regenerative drives, which feed excess energy back into the building's power grid. Energy-efficient LED lighting in cars and standby modes that reduce power consumption during idle periods contribute significantly to reducing the carbon footprint of vertical transportation. Environmentally friendly manufacturing and maintenance practices are also gaining prominence.</p>
+                    <h4 class="font-semibold text-lg text-slate-700 mb-2">Accessibility and Universal Design: Lifts for All</h4>
+                    <p class="text-slate-600 mb-4">Ensuring elevators are accessible to everyone is a core principle of modern design. Compliance with standards like ADA (Americans with Disabilities Act) and local Indian regulations is crucial. This involves features for people with disabilities, such as tactile and Braille controls, extended door dwell times, and clear visual cues and voice annunciators. The broader concept of Universal Design aims to create environments that are usable by all people, to the greatest extent possible, without the need for adaptation or specialized design.</p>
+                    <h4 class="font-semibold text-lg text-slate-700 mb-2">Career Paths in the Elevator Industry & Glossary</h4>
+                    <p class="text-slate-600 mb-4">The elevator industry offers diverse and rewarding career paths, from skilled technicians and installers to design engineers, sales professionals, and project managers. It's a field that combines mechanical, electrical, and software engineering with strong customer service and safety principles. For those new to the field, a comprehensive glossary of industry-specific terminology is provided to help navigate the technical language.</p>
+                </div>
+
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-slate-700">Modern Innovations and Future Trends</h2>
+                    <p class="mt-2 text-slate-500 max-w-2xl mx-auto">Elevator technology is evolving rapidly, driven by connectivity, sustainability, and architectural innovation. Here are some of the key trends shaping the future.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 bg-white rounded-xl shadow-md">
+                        <h3 class="font-bold text-lg text-slate-800">Smart Systems & IoT</h3>
+                        <p class="text-sm text-slate-500 mt-2">Elevators are becoming connected devices. Using sensors and AI, they can predict maintenance needs, optimize traffic flow in real-time, and integrate with building management systems for enhanced efficiency and safety.</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-xl shadow-md">
+                        <h3 class="font-bold text-lg text-slate-800">Sustainable Solutions</h3>
+                        <p class="text-sm text-slate-500 mt-2">Green elevators are becoming the standard. Innovations like regenerative drives (which feed energy back into the building's power grid), energy-efficient LED lighting, and standby modes are drastically reducing their environmental footprint.</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-xl shadow-md">
+                        <h3 class="font-bold text-lg text-slate-800">Ropeless & Multi-Directional</h3>
+                        <p class="text-sm text-slate-500 mt-2">The ultimate frontier. Using magnetic levitation (maglev) instead of ropes, future systems will allow multiple cabins to travel in one shaft, both vertically and horizontally, revolutionizing building design and urban mobility.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const contentData = {
+        components: {
+            motor: {
+                title: 'Driving Machine (Motor)',
+                text: 'The powerhouse of the elevator. An electric motor turns a grooved wheel (sheave) to move the ropes. This provides the force needed to lift and lower the car. Modern systems use highly efficient gearless motors.'
+            },
+            car: {
+                title: 'Car (Cab)',
+                text: 'The enclosure that carries passengers or freight. It consists of a structural steel frame (sling) for integrity and the decorative cab that people see and interact with. It contains the control panel and safety features.'
+            },
+            counterweight: {
+                title: 'Counterweight',
+                text: 'A heavy frame of weights that moves opposite to the car, connected by the same ropes. It balances the weight of the car plus about 40-50% of its rated load, drastically reducing the energy needed by the motor.'
+            },
+            buffers: {
+                title: 'Buffers',
+                text: 'Located in the pit at the bottom of the hoistway, these are safety devices (spring or oil-filled) designed to absorb impact and bring the car to a cushioned stop if it travels too far down.'
+            },
+            ropes: {
+                title: 'Ropes/Belts',
+                text: 'High-strength steel wire ropes (or flat steel belts in some modern systems) connect the car to the counterweight, passing over the driving sheave. They are crucial for traction and lifting.'
+            },
+            'guide-rails': {
+                title: 'Guide Rails',
+                text: 'T-shaped steel rails that extend vertically along the hoistway, guiding the car and counterweight to ensure smooth and precise movement. Guide shoes on the car and counterweight slide along these rails.'
+            }
+        },
+        types: {
+             traction: {
+                label: 'Traction Elevator',
+                data: [8, 9, 4, 8] // Speed, Max Rise, Initial Cost (Lower is better), Energy Efficiency (1-10 scale)
+            },
+            hydraulic: {
+                label: 'Hydraulic Elevator',
+                data: [3, 4, 7, 3] // Speed, Max Rise, Initial Cost (Lower is better), Energy Efficiency
+            },
+            mrl: {
+                label: 'MRL Elevator',
+                data: [7, 7, 5, 9] // Speed, Max Rise, Initial Cost (Lower is better), Energy Efficiency
+            }
+        },
+        safety: {
+            interlocks: {
+                title: 'Door Interlocks',
+                text: 'A critical electromechanical system. Hoistway doors can only be unlocked and opened when the car is present and level. Conversely, the car cannot move unless every single door (hoistway and car) is fully closed and locked. This prevents falls into the hoistway and movement with open doors.'
+            },
+            governor: {
+                title: 'Overspeed Governor & Safety Gear',
+                text: 'This is a mechanical speed-sensing device. If the car exceeds its rated speed by a set margin, the governor trips, first cutting power to the motor and then mechanically clamping a rope that activates powerful safety gears on the car frame. These gears bite into the guide rails, bringing the car to a safe, abrupt halt, independent of the main ropes.'
+            },
+            ard: {
+                title: 'Emergency Systems',
+                text: 'This category includes the Automatic Rescue Device (ARD), which uses battery power to safely move the car to the nearest floor during a power outage. It also includes the mandatory two-way communication system (intercom/phone) that allows trapped passengers to contact building staff or an emergency call center.'
+            },
+            buffers: {
+                title: 'Buffers',
+                text: 'These are the final line of mechanical safety. Located in the pit, these large springs or oil-filled cylinders absorb the energy of the car or counterweight if they travel beyond the lowest landing, preventing a hard impact.'
+            }
+        },
+        chooser: {
+            residential: {
+                low: "Recommendation: **Hydraulic** or **Machine Room-Less (MRL) Traction** lifts are excellent choices. For retrofits in Indian homes with space constraints, consider **Screw-Driven** or **Pneumatic** lifts. Key Factors: Aesthetics, quiet operation, and minimal structural changes. Check IS 15259 for home lift standards.",
+                mid: "Recommendation: **Machine Room-Less (MRL) Traction** elevators are ideal. They offer a good balance of speed, energy efficiency, and a smooth ride without requiring a separate machine room, which is a significant advantage in modern residential complexes. Safety features like ARD are crucial.",
+                high: "Recommendation: **High-Speed Gearless Traction** elevators are necessary. In very tall residential towers in India, consider zoning (elevator banks serving different floor groups) to minimize wait times. Passenger comfort and ride quality are paramount."
+            },
+            commercial: {
+                low: "Recommendation: **Machine Room-Less (MRL) Traction** elevators are highly suitable, offering a modern aesthetic, efficiency, and space savings. Hydraulic can be a cost-effective alternative for lower traffic.",
+                mid: "Recommendation: **Gearless MRL Traction** elevators are the standard. For higher traffic, consider implementing a **Destination Dispatch System** to optimize flow during peak hours. This significantly improves efficiency in Indian office environments.",
+                high: "Recommendation: A bank of **High-Speed Gearless Traction** elevators with an advanced **Destination Dispatch System** is essential. Consider zoning or sky lobbies for super-tall towers to manage traffic effectively and minimize wait times."
+            },
+            hospital: {
+                low: "Recommendation: A dedicated **Hydraulic Stretcher Lift** is often preferred for its smooth, stable ride. Ensure car dimensions comply with Indian standards (e.g., min. 1100mm x 2100mm) to accommodate stretchers and medical equipment. Reliability and hygiene are key.",
+                mid: "Recommendation: A combination of **Traction Stretcher Lifts** and separate passenger elevators. Prioritize reliability, precise leveling, and robust emergency power backup. MRL options are suitable to save space.",
+                high: "Recommendation: Banks of **High-Speed Gearless Traction** elevators, with dedicated, oversized stretcher lifts. All must have robust emergency power and comply with the National Building Code of India for hospitals."
+            },
+            industrial: {
+                low: "Recommendation: **Hydraulic Freight Elevators** are excellent for heavy loads (2-10 tons) over short distances. Their robustness and direct lifting power are ideal for industrial use. Ensure the floor can handle forklift loading if required.",
+                mid: "Recommendation: **Geared or Gearless Traction Freight Elevators** are better for efficiency over multiple floors. Choose door types (like vertical bi-parting) and car finishes (heavy-duty steel) based on the specific goods and loading methods.",
+                high: "Recommendation: **Heavy-Duty Geared Traction** elevators are required. The focus is on durability, capacity, and reliability over speed. Ensure compliance with The Factories Act, 1948, and relevant IS codes for goods lifts."
+            }
+        }
+    };
+
+    const tabs = document.querySelectorAll('.tab');
+    const sections = document.querySelectorAll('.content-section');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            tabs.forEach(item => item.classList.remove('active-tab'));
+            tab.classList.add('active-tab');
+            
+            const target = tab.getAttribute('data-tab');
+            
+            sections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === target) {
+                    section.classList.add('active');
+                }
+            });
+        });
+    });
+    
+    const components = document.querySelectorAll('.interactive-component');
+    const infoTitle = document.getElementById('info-title');
+    const infoText = document.getElementById('info-text');
+
+    components.forEach(comp => {
+        if (!comp.id.startsWith('comp-')) return;
+        comp.addEventListener('click', () => {
+            const compId = comp.id.replace('comp-', '');
+            const key = compId.includes('buffers') ? 'buffers' : compId; // Handle specific component IDs
+            
+            components.forEach(c => c.classList.remove('selected'));
+            comp.classList.add('selected');
+
+            if (contentData.components[key]) {
+                infoTitle.textContent = contentData.components[key].title;
+                infoText.textContent = contentData.components[key].text;
+            }
+        });
+    });
+
+    const typeSelectors = document.querySelectorAll('[id^="type-"]');
+    const chartCtx = document.getElementById('type-comparison-chart').getContext('2d');
+    let comparisonChart;
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            r: {
+                angleLines: { display: true },
+                suggestedMin: 0,
+                suggestedMax: 10,
+                pointLabels: { font: { size: 12 } }
+            }
+        },
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        if (context.parsed.r !== null) {
+                            label += context.parsed.r + ' / 10';
+                        }
+                        return label;
+                    }
+                }
+            }
+        }
+    };
+
+    function initChart(typeKey) {
+        if(comparisonChart) {
+            comparisonChart.destroy();
+        }
+        
+        const typeData = contentData.types[typeKey];
+        
+        comparisonChart = new Chart(chartCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Speed', 'Max Rise', 'Initial Cost (Lower is better)', 'Energy Efficiency'],
+                datasets: [{
+                    label: typeData.label,
+                    data: typeData.data,
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
+                }]
+            },
+            options: chartOptions
+        });
+    }
+
+    initChart('traction'); // Initialize with Traction chart
+    document.getElementById('type-traction').classList.add('selected'); // Set Traction as selected by default
+
+    typeSelectors.forEach(selector => {
+        selector.addEventListener('click', () => {
+            const typeId = selector.id.replace('type-', '');
+
+            typeSelectors.forEach(s => s.classList.remove('selected'));
+            selector.classList.add('selected');
+
+            if (contentData.types[typeId]) {
+                initChart(typeId);
+            }
+        });
+    });
+
+    const safetyComponents = document.querySelectorAll('[id^="safety-"]');
+    const safetyInfoTitle = document.getElementById('safety-info-title');
+    const safetyInfoText = document.getElementById('safety-info-text');
+
+    safetyComponents.forEach(comp => {
+        if(comp.id === 'safety-info') return;
+        comp.addEventListener('click', () => {
+            const safetyId = comp.id.replace('safety-', '');
+            
+            safetyComponents.forEach(c => c.classList.remove('selected'));
+            comp.classList.add('selected');
+
+            if (contentData.safety[safetyId]) {
+                safetyInfoTitle.textContent = contentData.safety[safetyId].title;
+                safetyInfoText.innerHTML = contentData.safety[safetyId].text;
+            }
+        });
+    });
+    
+    const buildingTypeSelect = document.getElementById('building-type');
+    const buildingHeightSelect = document.getElementById('building-height');
+    const recommendationContent = document.getElementById('recommendation-content');
+
+    function updateRecommendation() {
+        const type = buildingTypeSelect.value;
+        const height = buildingHeightSelect.value;
+        
+        const recommendationHtml = contentData.chooser[type][height];
+        recommendationContent.innerHTML = `<p class="text-slate-600">${recommendationHtml}</p>`;
+    }
+
+    buildingTypeSelect.addEventListener('change', updateRecommendation);
+    buildingHeightSelect.addEventListener('change', updateRecommendation);
+    
+    updateRecommendation(); // Initial recommendation on load
+});
+</script>
+
+</body>
+</html>
